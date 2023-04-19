@@ -600,7 +600,7 @@ def main():
     q = False
 
     while q == False:
-        print("\nPossible actions to enter: 'load network', 'gene details', 'disease details', 'subgraph', 'common_diseases', 'common genes', 'similar genes', 'network stats', or 'quit'")
+        print("\nPossible actions to enter: 'load network', 'gene details', 'disease details', 'subgraph', 'common diseases', 'common genes', 'similar genes', 'network stats', or 'quit'")
         print("MUST LOAD NETWORK IF FIRST USE OF APPLICATION")
         print("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
 
