@@ -2,7 +2,7 @@
 
 ## How to Use
 
-- Start project on Neo4j Desktop and use default 'neo4j' databse
+- Start project on Neo4j Desktop (to make sure use of `bolt` connection) and use default 'neo4j' databse
   - Make sure database is running on port `7687`
   - Use 'neo4j' as username and 'password' as password
 - Run `python GAD_app.py` to start the program and open the main menu.
