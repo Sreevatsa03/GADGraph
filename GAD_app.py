@@ -663,9 +663,9 @@ def main():
     q = False
 
     while q == False:
-        print("\nPossible actions to enter: 'load network', 'gene details', 'disease details', 'subgraph', 'common diseases', 'common genes', 'similar genes', 'network stats', or 'quit'")
+        print("\nPossible actions to enter: 'load network', 'gene details', 'disease details', 'subgraph', 'common diseases', 'common genes', 'network stats', or 'quit'")
         print("MUST LOAD NETWORK IF FIRST USE OF APPLICATION")
-        print("========================================================================================================================================================================")
+        print("=======================================================================================================================================================")
 
         # enter an action
         action = input("Enter an action: ").lower()
@@ -791,12 +791,6 @@ def main():
 
             # find common diseases
             gad.find_common_genes(node1, node2, score1, score2)
-
-        # elif action == 'similar genes':
-
-        #     print("\nFind similar genes to the inputted gene")
-        #     find_similar_genes(G)
-        #     print()
         
         # network stats
         elif action == 'network stats':

@@ -18,10 +18,8 @@
 5. `common diseases` - Prompts the user to input 2 gene id's. The user can also choose to enter a score threshold for each gene when asked by answering with 'y.' It will then return the common diseases shared between the given genes and, if the user chose to input thresholds, those disease assocations will be greater than or equal to the given score thresholds.
   
 6. `common genes` - Prompts the user to input 2 disease id's. The user can also choose to enter a score threshold for each disease when asked by answering with 'y.' It will then return the common genes shared between the given disease and, if the user chose to input thresholds, those gene assocations will be greater than or equal to the given score thresholds.
-
-7. `similar genes` - Prompts the user to input a gene id. It will return similar genes to the given one based on their overlap in disease associations.
   
-8. `network stats` - Prompts the user for a statistic action:
+7. `network stats` - Prompts the user for a statistic action:
     1. `central genes` - Prompts the user for number of genes to return. Returns a bar chart represention and list of the most central genes.
       
     2. `central diseases` - Prompts the user for number of diseases to return. Returns a bar chart represention and list of the most central diseases.
@@ -30,4 +28,4 @@
       
     4. `back` - Returns back to the main menu of possible actions.
   
-9.  `quit` - User can enter this action from the main menu and it will end the program.
+8.  `quit` - User can enter this action from the main menu and it will end the program.
