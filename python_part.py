@@ -202,7 +202,14 @@ def display_subgraph(G):
 
     # show subplot
     H = nx.subgraph(G, lst)
-    nx.draw_networkx(H, with_labels=True)
+    color_map = []
+    for node in list(H.nodes):
+        if G.nodes[node]["type"] == "disease":
+            color_map.append('green')
+        else:
+            color_map.append('gray')
+    nx.draw_networkx(H,  font_size=7, node_size=750, connectionstyle='arc3, rad = 0.075',
+                     arrows=True, with_labels=True, node_color=color_map)
     plt.show()
 
 def get_stats(G):
@@ -223,8 +230,25 @@ def get_stats(G):
     print()
     print("Top 5 genes with most diseases associated:")
     print("----------------------------------------------------")
+
+    genes = []
+    associate_nums = []
     for node_disease_tup in cnt1.most_common(5):
         print("Gene #"+ str(node_disease_tup[0])+ " ("+ G.nodes[node_disease_tup[0]]["geneSymbol"] +") has", node_disease_tup[1], "diseases associated.")
+        genes.append(str(node_disease_tup[0])+ " ("+ G.nodes[node_disease_tup[0]]["geneSymbol"] +")")
+        associate_nums.append(node_disease_tup[1])
+
+    fig = plt.figure(figsize=(10, 5))
+
+    # creating the bar plot
+    plt.bar(genes, associate_nums, color='gray',
+            width=0.5)
+
+
+    plt.xlabel("Genes")
+    plt.ylabel("No. of Associations")
+    plt.title("Associations by Gene")
+    plt.show()
 
     # get diseases with the most edges
     cnt2 = Counter()
@@ -237,12 +261,32 @@ def get_stats(G):
     print()
     print("Top 5 diseases with most genes associated:")
     print("----------------------------------------------------")
+
+    diseases = []
+    associate_nums = []
     for disease_node_tup in cnt2.most_common(5):
         try:
             print("Disease #" + str(disease_node_tup[0]) + " (" + G.nodes[disease_node_tup[0]]["diseaseName"] + ") has",
                   disease_node_tup[1], "genes associated.")
+            diseases.append(str(disease_node_tup[0]) + " (" + G.nodes[disease_node_tup[0]]["diseaseName"] + ")")
+            associate_nums.append(disease_node_tup[1])
         except:
             print("Disease #" + str(disease_node_tup[0]) + " has", disease_node_tup[1], "genes associated.")
+            diseases.append(str(disease_node_tup[0]))
+            associate_nums.append(disease_node_tup[1])
+
+    fig = plt.figure(figsize=(10, 5))
+
+    # creating the bar plot
+    plt.bar(diseases, associate_nums, color='green',
+            width=0.5)
+
+    plt.xticks(rotation=45)
+    plt.xlabel("Disease")
+    plt.ylabel("No. of Associations")
+    plt.title("Associations by Disease")
+    plt.show()
+
 
     # request num of min edges for high association graph
     print()
@@ -255,7 +299,16 @@ def get_stats(G):
     ax.set_title(f'Genes/Diseases with over {min_num_edges} associations')
     lst = recursive_search(G, 6142, min_num_edges, seen=None)
     H = nx.subgraph(G, list(lst))
-    nx.draw_networkx(H,with_labels=True, node_color='gray', ax=ax)
+    color_map = []
+    for node in list(H.nodes):
+        if G.nodes[node]["type"] == "disease":
+            color_map.append('green')
+        else:
+            color_map.append('gray')
+    pos = nx.shell_layout(H,scale=30)
+    nx.draw_networkx(H, pos, font_size=7,  node_size =500, connectionstyle='arc3, rad = 0.075',
+                     arrows = True, with_labels=True, node_color=color_map, ax=ax)
+
 
     # print all diseases/genes with high associations
     print()

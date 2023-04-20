@@ -15,7 +15,7 @@ NofPmids int);
 drop table genes;
 create table genes(
 geneId int primary key not null,
-geneSymbol varchar(15) not null,	
+geneSymbol varchar(50) not null,	
 DSI	decimal(10,2),
 DPI	decimal(10,2),
 PLI	decimal(10,2),
@@ -30,7 +30,7 @@ create table gad(
 geneId int not null,
 diseaseId varchar(20) not null,
 score decimal(10,2) not null,
-ei decimal(10,2) not null,
+ei decimal(10,2),
 el varchar(20),
 yearInitial int,
 yearFinal int,
