@@ -175,3 +175,10 @@ pyrightconfig.json
 
 # Neo4j
 relate.project.json
+
+# extra code
+python_part.py
+missing_data.ipynb
+load_missing.py
+data/missing_diseases.csv
+disgenet_connector_example.py
