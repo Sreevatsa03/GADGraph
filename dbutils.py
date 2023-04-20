@@ -9,6 +9,7 @@ to implement a database application
 import mysql.connector
 import pandas as pd
 
+
 class DBUtils:
 
     def __init__(self, user, password, database, host="localhost"):
@@ -36,13 +37,11 @@ class DBUtils:
         if df == True:
             return pd.DataFrame(rows, columns=cols)
 
-
     def insert_one(self, sql, val):
         """ Insert a single row """
         cursor = self.con.cursor()
         cursor.execute(sql, val)
         self.con.commit()
-
 
     def insert_many(self, sql, vals):
         """ Insert multiple rows """

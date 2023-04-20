@@ -5,7 +5,8 @@ from urllib3.util.retry import Retry
 from dbutils import DBUtils
 
 # hardcoded to my acc info
-auth_params = {"email": "chandra.d@northeastern.edu", "password": "Diamond1220!"}
+auth_params = {"email": "chandra.d@northeastern.edu",
+               "password": "Diamond1220!"}
 api_host = "https://www.disgenet.org/api"
 api_key = "cf85fe28646e75646fc8969894d2fd55d06822af"
 
@@ -61,7 +62,8 @@ def disgenAPI(batch):
         s.headers.update({"Authorization": "Bearer %s" % api_key})
 
         # gets responses of each gene in batch
-        gda_response = s.get(api_host + '/gda/gene/' + f'{g}', params={'min_ei': .75, 'min_score': .55})
+        gda_response = s.get(api_host + '/gda/gene/' +
+                             f'{g}', params={'min_ei': .75, 'min_score': .55})
         try:
             resp = gda_response.json()
         except ValueError:

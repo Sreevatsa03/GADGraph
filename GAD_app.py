@@ -5,6 +5,7 @@ Query GAD database from Neo4j
 import neo4j
 from GAD_visualize_analyze import GADVisualizeAnalyze as GVA
 
+
 class GADGraph():
 
     def __init__(self, uri, user, password):
@@ -70,7 +71,6 @@ class GADGraph():
                 print("Relationships inserted:", record[0])
 
             print("Nodes and relationships inserted.")
-
 
     def _list_nodes(self):
         """
@@ -147,8 +147,8 @@ class GADGraph():
 
         # return edges
         return edges, genes, diseases
-    
-    def _visualize(self, result, title = None):
+
+    def _visualize(self, result, title=None):
         """
         Visualize results from Neo4j query.
 
@@ -217,15 +217,17 @@ class GADGraph():
         """
 
         with self._driver.session() as session:
-            result = session.run(gene_query, node_idx=str(node_idx), score=score_threshold)
-            
+            result = session.run(gene_query, node_idx=str(
+                node_idx), score=score_threshold)
+
             if result.peek():
                 # set title
                 title = f"Associations for Gene {str(node_idx)} ({str(result.peek()['geneSymbol'])})"
 
             # check if results is empty
             if not result.peek():
-                result = session.run(disease_query, node_idx=str(node_idx), score=score_threshold)
+                result = session.run(disease_query, node_idx=str(
+                    node_idx), score=score_threshold)
 
                 if result.peek():
                     # set title
@@ -233,8 +235,10 @@ class GADGraph():
 
             # check if results is empty
             if not result.peek():
-                print("\nNo gene or disease node with index", str(node_idx), "found. Make sure you are inputting the node *index* and not its name.")
-                print("You can use gene details or disease details to get the index of a gene or disease node.")
+                print("\nNo gene or disease node with index", str(
+                    node_idx), "found. Make sure you are inputting the node *index* and not its name.")
+                print(
+                    "You can use gene details or disease details to get the index of a gene or disease node.")
                 return
             else:
 
@@ -267,29 +271,32 @@ class GADGraph():
         """
 
         with self._driver.session() as session:
-            result = session.run(gene_query, node_name=str(node_name), score=score_threshold)
+            result = session.run(gene_query, node_name=str(
+                node_name), score=score_threshold)
 
             # set title
             title = f"Associations for Gene {str(node_name)}"
 
             # check if results is empty
             if not result.peek():
-                result = session.run(disease_query, node_name=str(node_name), score=score_threshold)
+                result = session.run(disease_query, node_name=str(
+                    node_name), score=score_threshold)
 
                 # set title
                 title = f"Associations for Disease {str(node_name)}"
 
             # check if results is empty
             if not result.peek():
-                print("No gene or disease node with name", node_name, "found. Make sure you are inputting the node *name* and not its index.")
-                print("You can use gene details or disease details to get the name of a gene or disease node from its index.")
+                print("No gene or disease node with name", node_name,
+                      "found. Make sure you are inputting the node *name* and not its index.")
+                print(
+                    "You can use gene details or disease details to get the name of a gene or disease node from its index.")
                 return
             else:
 
                 # visualize the results
                 self._visualize(result, title)
-                
-    
+
     def get_gene_details(self, gene):
         """
         Get details of a gene from its geneId or geneSymbol
@@ -314,16 +321,17 @@ class GADGraph():
 
         with self._driver.session() as session:
             result = session.run(geneId_query, gene=str(gene))
-            
+
             # check if results is empty
             if not result.peek():
                 result = session.run(geneSymbol_query, gene=str(gene))
             else:
                 for record in result:
-                    
+
                     # print nicely with all details
                     print(f"GENE {gene}:")
-                    print(f"geneSymbol: {record['geneSymbol']}, DSI: {record['DSI']}, DPI: {record['DPI']}, PLI: {record['PLI']}, protein_class_name: {record['protein_class_name']}, NofDiseases: {record['NofDiseases']}")
+                    print(
+                        f"geneSymbol: {record['geneSymbol']}, DSI: {record['DSI']}, DPI: {record['DPI']}, PLI: {record['PLI']}, protein_class_name: {record['protein_class_name']}, NofDiseases: {record['NofDiseases']}")
 
                     # return geneSymbol
                     return record['geneSymbol']
@@ -334,10 +342,11 @@ class GADGraph():
                 return
             else:
                 for record in result:
-                    
+
                     # print nicely
                     print(f"GENE {gene}:")
-                    print(f"geneId: {record['geneId']}, DSI: {record['DSI']}, DPI: {record['DPI']}, PLI: {record['PLI']}, protein_class_name: {record['protein_class_name']}, NofDiseases: {record['NofDiseases']}")
+                    print(
+                        f"geneId: {record['geneId']}, DSI: {record['DSI']}, DPI: {record['DPI']}, PLI: {record['PLI']}, protein_class_name: {record['protein_class_name']}, NofDiseases: {record['NofDiseases']}")
 
                     # return geneId
                     return record['geneId']
@@ -366,16 +375,17 @@ class GADGraph():
 
         with self._driver.session() as session:
             result = session.run(diseaseId_query, disease=str(disease))
-            
+
             # check if results is empty
             if not result.peek():
                 result = session.run(diseaseName_query, disease=str(disease))
             else:
                 for record in result:
-                    
+
                     # print nicely
                     print(f"DISEASE {disease}:")
-                    print(f"diseaseName: {record['diseaseName']}, diseaseSemanticType: {record['diseaseSemanticType']}, NofGenes: {record['NofGenes']}")
+                    print(
+                        f"diseaseName: {record['diseaseName']}, diseaseSemanticType: {record['diseaseSemanticType']}, NofGenes: {record['NofGenes']}")
 
                     # return diseaseName
                     return record['diseaseName']
@@ -386,14 +396,15 @@ class GADGraph():
                 return
             else:
                 for record in result:
-                    
+
                     # print nicely
                     print(f"DISEASE {disease}:")
-                    print(f"diseaseId: {record['diseaseId']}, diseaseSemanticType: {record['diseaseSemanticType']}, NofGenes: {record['NofGenes']}")
+                    print(
+                        f"diseaseId: {record['diseaseId']}, diseaseSemanticType: {record['diseaseSemanticType']}, NofGenes: {record['NofGenes']}")
 
                     # return diseaseId
                     return record['diseaseId']
-                
+
     def _reverse_graph_projection(self, node_type):
         """
         Project reverse graph onto genes or diseases.
@@ -447,7 +458,8 @@ class GADGraph():
             result = session.run(exists_query, graph_name=str(graph_name))
             for record in result:
                 if record['exists']:
-                    print("Graph", graph_name, "exists. Dropping graph projection.")
+                    print("Graph", graph_name,
+                          "exists. Dropping graph projection.")
                     result = session.run(query, graph_name=str(graph_name))
                     for record in result:
                         print(record)
@@ -480,18 +492,20 @@ class GADGraph():
         """
 
         with self._driver.session() as session:
-            result = session.run(query, gene1=str(gene1), gene2=str(gene2), score1=float(score1), score2=float(score2))
+            result = session.run(query, gene1=str(gene1), gene2=str(
+                gene2), score1=float(score1), score2=float(score2))
 
             print("\nBelow are the diseases that the given genes share associations with")
             print("-------------------------------------------------------------------")
 
             for record in result:
-                
+
                 # print nicely
-                print(f"{record['diseaseName']}: Gene {str(gene1)} association score: {record['score1']}, Gene {str(gene2)} association score: {record['score2']}")
+                print(
+                    f"{record['diseaseName']}: Gene {str(gene1)} association score: {record['score1']}, Gene {str(gene2)} association score: {record['score2']}")
 
             return result
-        
+
     def find_common_genes(self, disease1, disease2, score1=0.0, score2=0.0):
         """
         Find common genes between two diseases.
@@ -518,18 +532,20 @@ class GADGraph():
         """
 
         with self._driver.session() as session:
-            result = session.run(query, disease1=str(disease1), disease2=str(disease2), score1=float(score1), score2=float(score2))
-            
+            result = session.run(query, disease1=str(disease1), disease2=str(
+                disease2), score1=float(score1), score2=float(score2))
+
             print("\nBelow are the genes that the given diseases share associations with")
             print("-------------------------------------------------------------------")
 
             for record in result:
-                
+
                 # print nicely
-                print(f"{record['geneSymbol']}: Disease {str(disease1)} association score: {record['score1']}, {str(disease2)} association score: {record['score2']}")
+                print(
+                    f"{record['geneSymbol']}: Disease {str(disease1)} association score: {record['score1']}, {str(disease2)} association score: {record['score2']}")
 
             return result
-        
+
     def most_connected_genes(self, score=0.0, limit=5):
         """
         Find most connected genes in the graph.
@@ -553,7 +569,8 @@ class GADGraph():
         with self._driver.session() as session:
             result = session.run(query, score=float(score), limit=int(limit))
 
-            print(f"\nBelow are the top {limit} genes with the most associations")
+            print(
+                f"\nBelow are the top {limit} genes with the most associations")
             print("-----------------------------------------------------")
 
             # add results to list
@@ -561,10 +578,12 @@ class GADGraph():
 
             for record in result:
 
-                gene_count_list.append((str(record['geneSymbol']), int(record['count'])))
-                
+                gene_count_list.append(
+                    (str(record['geneSymbol']), int(record['count'])))
+
                 # print nicely
-                print(f"{record['geneSymbol']}: {record['count']} associations")
+                print(
+                    f"{record['geneSymbol']}: {record['count']} associations")
 
             # instantiate GVA class
             gva = self._load_full_network()
@@ -573,7 +592,7 @@ class GADGraph():
             gva.count_associations_bar(gene_count_list)
 
             return gene_count_list
-    
+
     def most_connected_diseases(self, score=0.0, limit=5):
         """
         Find most connected diseases in the graph.
@@ -597,7 +616,8 @@ class GADGraph():
         with self._driver.session() as session:
             result = session.run(query, score=float(score), limit=int(limit))
 
-            print(f"\nBelow are the top {limit} diseases with the most associations")
+            print(
+                f"\nBelow are the top {limit} diseases with the most associations")
             print("--------------------------------------------------------")
 
             # add results to list
@@ -605,10 +625,12 @@ class GADGraph():
 
             for record in result:
 
-                disease_count_list.append((str(record['diseaseName']), int(record['count'])))
-                
+                disease_count_list.append(
+                    (str(record['diseaseName']), int(record['count'])))
+
                 # print nicely
-                print(f"{record['diseaseName']}: {record['count']} associations")
+                print(
+                    f"{record['diseaseName']}: {record['count']} associations")
 
             # instantiate GVA class
             gva = self._load_full_network()
@@ -617,7 +639,7 @@ class GADGraph():
             gva.count_associations_bar(disease_count_list)
 
             return disease_count_list
-        
+
     def high_association_graph(self, min_num_edges):
         """
         Visualize graph with high associations.
@@ -630,20 +652,23 @@ class GADGraph():
         gva = self._load_full_network()
 
         # get nodes with high associations
-        nodes_list = list(gva.recursive_search('Malignant neoplasm of breast', min_num_edges))
+        nodes_list = list(gva.recursive_search(
+            'Malignant neoplasm of breast', min_num_edges))
 
         # create subgraph and set as graph
         subgraph = gva.create_subgraph(nodes_list)
         gva.set_graph(subgraph)
 
         # draw graph
-        gva.draw_graph(title=f'Genes/Diseases with over {min_num_edges} associations', node_size=500, layout='circular')
+        gva.draw_graph(
+            title=f'Genes/Diseases with over {min_num_edges} associations', node_size=500, layout='circular')
 
         # get graph
         G = gva.get_graph()
 
         # print all diseases/genes with high associations
-        print(f"\nBelow are the genes/diseases with over {min_num_edges} associations")
+        print(
+            f"\nBelow are the genes/diseases with over {min_num_edges} associations")
         print("--------------------------------------------------------------------")
         for node in nodes_list:
 
@@ -653,6 +678,7 @@ class GADGraph():
 
             if G.nodes[node]["type"] == "gene":
                 print(f"Gene: {str(node)}")
+
 
 def main():
 
@@ -694,7 +720,8 @@ def main():
             print("\nFind details about a gene")
 
             # get gene id or gene symbol
-            gene = str(input("Enter gene id or gene symbol to get full details for: "))
+            gene = str(
+                input("Enter gene id or gene symbol to get full details for: "))
 
             # get gene details
             gad.get_gene_details(gene)
@@ -704,17 +731,20 @@ def main():
             print("\nFind details about a disease")
 
             # get disease id or disease name
-            disease = str(input("Enter disease id or disease name to get full details for: "))
+            disease = str(
+                input("Enter disease id or disease name to get full details for: "))
 
             # get disease details
             gad.get_disease_details(disease)
 
         # subgraph
         elif action == 'subgraph':
-            print("\nCreate a subgraph for a given node and threshold for score of association")
+            print(
+                "\nCreate a subgraph for a given node and threshold for score of association")
 
             # ask if user wants to search by node id or node name
-            ans = input("Do you want to search by node id or node name? (id/name) ")
+            ans = input(
+                "Do you want to search by node id or node name? (id/name) ")
 
             # if id, get node id and score threshold
             if ans == 'id':
@@ -722,7 +752,8 @@ def main():
 
             # if name, get node name and score threshold
             elif ans == 'name':
-                node_name = str(input("Enter node name (gene symbol or disease name) to create subgraph for: "))
+                node_name = str(
+                    input("Enter node name (gene symbol or disease name) to create subgraph for: "))
 
             # default score threshold
             score = 0.0
@@ -737,14 +768,15 @@ def main():
             if ans == 'id':
                 # create subgraph
                 gad.get_associations_from_id(node_id, score)
-            
+
             elif ans == 'name':
                 # create subgraph
-                gad.get_associations(node_name, score)            
+                gad.get_associations(node_name, score)
 
         # common diseases
         elif action == 'common diseases':
-            print("\nFind if there are any common disease(s) between 2 genes (with optional score thresholds)")
+            print(
+                "\nFind if there are any common disease(s) between 2 genes (with optional score thresholds)")
             node1 = int(input("Enter the first gene's id: "))
             node2 = int(input("Enter the second gene's id: "))
 
@@ -753,23 +785,28 @@ def main():
             score2 = 0.0
 
             # ask user if they want to enter score thresholds
-            ans1 = input("Do you want to enter a score threshold for the first gene? (y/n) ")
+            ans1 = input(
+                "Do you want to enter a score threshold for the first gene? (y/n) ")
 
             # if yes, get score threshold
             if ans1 == 'y':
-                score1 = float(input("Enter score threshold for the first gene: "))
+                score1 = float(
+                    input("Enter score threshold for the first gene: "))
 
-            ans2 = input("Do you want to enter a score threshold for the second gene? (y/n) ")
+            ans2 = input(
+                "Do you want to enter a score threshold for the second gene? (y/n) ")
 
             if ans2 == 'y':
-                score2 = float(input("Enter score threshold for the second gene: "))
+                score2 = float(
+                    input("Enter score threshold for the second gene: "))
 
             # find common diseases
             gad.find_common_dieases(node1, node2, score1, score2)
 
         # common genes
         elif action == 'common genes':
-            print("\nFind if there are any common gene(s) between 2 diseases (with optional score thresholds)")
+            print(
+                "\nFind if there are any common gene(s) between 2 diseases (with optional score thresholds)")
             node1 = int(input("Enter the first disease's id: "))
             node2 = int(input("Enter the second disease's id: "))
 
@@ -778,28 +815,34 @@ def main():
             score2 = 0.0
 
             # ask user if they want to enter score thresholds
-            ans1 = input("Do you want to enter a score threshold for the first disease? (y/n) ")
+            ans1 = input(
+                "Do you want to enter a score threshold for the first disease? (y/n) ")
 
             # if yes, get score threshold
             if ans1 == 'y':
-                score1 = float(input("Enter score threshold for the first disease (0 - 1.0): "))
+                score1 = float(
+                    input("Enter score threshold for the first disease (0 - 1.0): "))
 
-            ans2 = input("Do you want to enter a score threshold for the second disease? (y/n) ")
+            ans2 = input(
+                "Do you want to enter a score threshold for the second disease? (y/n) ")
 
             if ans2 == 'y':
-                score2 = float(input("Enter score threshold for the second disease (0 - 1.0): "))
+                score2 = float(
+                    input("Enter score threshold for the second disease (0 - 1.0): "))
 
             # find common diseases
             gad.find_common_genes(node1, node2, score1, score2)
-        
+
         # network stats
         elif action == 'network stats':
             print("\nStatistics about gene-association-disease network")
 
             # ask what statistics to return
             # print("Enter 'degree centrality' to return degree centrality for genes and diseases.")
-            print("Enter 'central genes' to return the most connected genes in the graph.")
-            print("Enter 'central diseases' to return the most connected diseases in the graph.")
+            print(
+                "Enter 'central genes' to return the most connected genes in the graph.")
+            print(
+                "Enter 'central diseases' to return the most connected diseases in the graph.")
             print("Enter 'high association' to return a graph of genes and diseases with the highest number of associations.")
             print("Enter 'back' to return to main menu.")
 
@@ -817,9 +860,10 @@ def main():
 
             # most connected diseases
             elif ans == 'central diseases':
-                
+
                 # get user input on how many diseases to return
-                num_diseases = int(input("\nEnter number of diseases to return: "))
+                num_diseases = int(
+                    input("\nEnter number of diseases to return: "))
 
                 print("Most connected diseases in the graph.")
                 gad.most_connected_diseases(limit=num_diseases)
@@ -829,7 +873,8 @@ def main():
                 print("\nHigh association graph.")
 
                 # get user input
-                min_num_edges = int(input("Enter minimum number of edges for high association graph (recommended 15): "))
+                min_num_edges = int(input(
+                    "Enter minimum number of edges for high association graph (recommended 15): "))
 
                 # create high association graph
                 gad.high_association_graph(min_num_edges)
@@ -837,6 +882,7 @@ def main():
             # back to main menu
             elif ans == 'back':
                 pass
+
 
 if __name__ == "__main__":
     main()

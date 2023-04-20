@@ -1,8 +1,12 @@
+"""
+Analyze and visualize GAD data
+"""
 
 import networkx as nx
 import matplotlib.pyplot as plt
 
 FONT_FAMILY = 'monospace'
+
 
 class GADVisualizeAnalyze():
 
@@ -25,7 +29,7 @@ class GADVisualizeAnalyze():
         # set graph
         self.G = graph
 
-    def create_graph(self, edges_list, genes = None, diseases = None):
+    def create_graph(self, edges_list, genes=None, diseases=None):
         """
         Create a graph from a list of edges
 
@@ -47,7 +51,7 @@ class GADVisualizeAnalyze():
         # add edges
         self.G.add_edges_from(edges_list)
 
-    def draw_graph(self, title = None, layout = 'spring', font_size = 8, alpha = 0.3, node_size = 750, edge_color = 'grey', font_family = FONT_FAMILY, arrows = True):
+    def draw_graph(self, title=None, layout='spring', font_size=8, alpha=0.3, node_size=750, edge_color='grey', font_family=FONT_FAMILY, arrows=True):
         """
         Draw graph from instance variable G and various parameters
 
@@ -72,7 +76,7 @@ class GADVisualizeAnalyze():
         # create figure
         plt.figure(figsize=(10, 8))
         ax = plt.gca()
-        mono_font = {'fontname':FONT_FAMILY}
+        mono_font = {'fontname': FONT_FAMILY}
 
         # set title
         if title is not None:
@@ -96,7 +100,7 @@ class GADVisualizeAnalyze():
         y_off = 0.1  # offset on the y axis
 
         for k, v in pos.items():
-            
+
             # check if node is a disease
             if self.G.nodes[k]["type"] == "disease":
 
@@ -106,19 +110,21 @@ class GADVisualizeAnalyze():
                 pos_higher[k] = v
 
         # draw graph
-        nx.draw_networkx_nodes(self.G, pos=pos, alpha=alpha, node_size=node_size, node_color=color_map, margins=0.1, ax=ax)
-        nx.draw_networkx_edges(self.G, pos=pos, alpha=(alpha + (alpha / 1.25)), edge_color=edge_color, arrows=arrows, 
+        nx.draw_networkx_nodes(self.G, pos=pos, alpha=alpha,
+                               node_size=node_size, node_color=color_map, margins=0.1, ax=ax)
+        nx.draw_networkx_edges(self.G, pos=pos, alpha=(alpha + (alpha / 1.25)), edge_color=edge_color, arrows=arrows,
                                connectionstyle='arc3, rad = 0.075', ax=ax)
-        nx.draw_networkx_labels(self.G, pos=pos_higher, alpha=(alpha * 2), font_size=font_size, font_family=font_family, font_weight='bold')
+        nx.draw_networkx_labels(self.G, pos=pos_higher, alpha=(
+            alpha * 2), font_size=font_size, font_family=font_family, font_weight='bold')
 
         # show graph
         plt.show()
         plt.close('all')
 
-    def recursive_search(self, node, min_num, seen = None):
+    def recursive_search(self, node, min_num, seen=None):
         """
         Recursively search for nodes with min_num or greater edges
-        
+
         :param node: geneSymbol or diseaseName
         :type node: str
         :param min_num: int minimum number of edges from node
@@ -147,11 +153,11 @@ class GADVisualizeAnalyze():
 
         # return subgraph nodes
         return seen
-    
+
     def create_subgraph(self, nodes):
         """
         Create subgraph from node with min_num or greater edges
-        
+
         :param nodes: list of nodes
         :type nodes: list
         :return: subgraph
@@ -163,7 +169,7 @@ class GADVisualizeAnalyze():
 
         # return subgraph
         return subgraph
-    
+
     def get_graph(self):
         """
         Return graph
@@ -174,7 +180,7 @@ class GADVisualizeAnalyze():
 
         # return graph
         return self.G
-    
+
     def count_associations_bar(self, node_count_list):
         """
         Create bar chart of given nodes and count of associations
